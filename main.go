@@ -105,7 +105,7 @@ func main() {
 		filter: map[string]interface{}{
 			"property": "Date",
 			"date": map[string]interface{}{
-				"equals": string(now.Format("2006-01-02")),
+				"equals": now.Format("2006-01-02"),
 			},
 		},
 	}
