@@ -4,17 +4,10 @@ import (
 	"fmt"
 	"log"
 	"time"
-
-	"github.com/joho/godotenv"
 )
 
 func main() {
 	fmt.Println("Creating diary page started.")
-
-	err := godotenv.Load()
-	if err != nil {
-		log.Fatal("Error loading .env file")
-	}
 
 	env := GetEnv()
 	client := NewClient(env.apiToken)
