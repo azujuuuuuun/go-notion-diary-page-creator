@@ -19,7 +19,7 @@ func NewClient(apiToken string) *Client {
 
 type QueryDatabaseParams struct {
 	databaseId string
-	filter     map[string]interface{}
+	filter     interface{}
 }
 
 type QueryDatabaseResponse struct {
@@ -31,13 +31,17 @@ type QueryDatabaseResponse struct {
 func (c *Client) QueryDatabase(params QueryDatabaseParams) (*QueryDatabaseResponse, error) {
 	url := "https://api.notion.com/v1/databases/" + params.databaseId + "/query"
 
-	// TODO: Handle nil
-	b, err := json.Marshal(params.filter)
+	bodyParams := struct {
+		Filter interface{} `json:"filter,omitempty"`
+	}{
+		Filter: params.filter,
+	}
+	b, err := json.Marshal(bodyParams)
 	if err != nil {
 		return nil, err
 	}
 
-	payload := strings.NewReader("{\"filter\":" + string(b) + "}")
+	payload := strings.NewReader(string(b))
 
 	req, err := http.NewRequest("POST", url, payload)
 	if err != nil {
@@ -70,24 +74,26 @@ func (c *Client) QueryDatabase(params QueryDatabaseParams) (*QueryDatabaseRespon
 }
 
 type CreatePageParams struct {
-	parent     map[string]interface{}
-	properties map[string]interface{}
+	parent     interface{}
+	properties interface{}
 }
 
 func (c *Client) CreatePage(params CreatePageParams) error {
 	url := "https://api.notion.com/v1/pages"
 
-	b1, err := json.Marshal(params.parent)
+	bodyParams := struct {
+		Parent     interface{} `json:"parent,omitempty"`
+		Properties interface{} `json:"properties,omitempty"`
+	}{
+		Parent:     params.parent,
+		Properties: params.properties,
+	}
+	b, err := json.Marshal(bodyParams)
 	if err != nil {
 		return err
 	}
 
-	b2, err := json.Marshal(params.properties)
-	if err != nil {
-		return err
-	}
-
-	payload := strings.NewReader("{\"parent\":" + string(b1) + ",\"properties\":" + string(b2) + "}")
+	payload := strings.NewReader(string(b))
 
 	req, err := http.NewRequest("POST", url, payload)
 	if err != nil {
