@@ -1,10 +1,10 @@
 package main
 
 import (
+	"bytes"
 	"encoding/json"
 	"io"
 	"net/http"
-	"strings"
 )
 
 type Client struct {
@@ -40,9 +40,7 @@ func (c *Client) QueryDatabase(id string, params QueryDatabaseParams) (*QueryDat
 		return nil, err
 	}
 
-	payload := strings.NewReader(string(b))
-
-	req, err := http.NewRequest("POST", url, payload)
+	req, err := http.NewRequest("POST", url, bytes.NewReader(b))
 	if err != nil {
 		return nil, err
 	}
@@ -92,9 +90,7 @@ func (c *Client) CreatePage(params CreatePageParams) error {
 		return err
 	}
 
-	payload := strings.NewReader(string(b))
-
-	req, err := http.NewRequest("POST", url, payload)
+	req, err := http.NewRequest("POST", url, bytes.NewReader(b))
 	if err != nil {
 		return err
 	}
