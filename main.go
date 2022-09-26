@@ -15,7 +15,6 @@ func main() {
 	now := time.Now()
 
 	params := QueryDatabaseParams{
-		databaseId: env.diaryDatabaseId,
 		filter: map[string]interface{}{
 			"property": "Date",
 			"date": map[string]interface{}{
@@ -23,7 +22,7 @@ func main() {
 			},
 		},
 	}
-	res, err := client.QueryDatabase(params)
+	res, err := client.QueryDatabase(env.diaryDatabaseId, params)
 	if err != nil {
 		log.Fatalf("failed to queryDatabase: %v", err)
 	}

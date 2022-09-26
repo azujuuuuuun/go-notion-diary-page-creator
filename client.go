@@ -18,8 +18,7 @@ func NewClient(apiToken string) *Client {
 }
 
 type QueryDatabaseParams struct {
-	databaseId string
-	filter     interface{}
+	filter interface{}
 }
 
 type QueryDatabaseResponse struct {
@@ -28,8 +27,8 @@ type QueryDatabaseResponse struct {
 	} `json:"results"`
 }
 
-func (c *Client) QueryDatabase(params QueryDatabaseParams) (*QueryDatabaseResponse, error) {
-	url := "https://api.notion.com/v1/databases/" + params.databaseId + "/query"
+func (c *Client) QueryDatabase(id string, params QueryDatabaseParams) (*QueryDatabaseResponse, error) {
+	url := "https://api.notion.com/v1/databases/" + id + "/query"
 
 	bodyParams := struct {
 		Filter interface{} `json:"filter,omitempty"`
