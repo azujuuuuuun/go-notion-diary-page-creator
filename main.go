@@ -15,10 +15,12 @@ func main() {
 	now := time.Now()
 
 	params := QueryDatabaseParams{
-		filter: map[string]interface{}{
-			"property": "Date",
-			"date": map[string]interface{}{
-				"equals": now.Format("2006-01-02"),
+		Filter: QueryDatabaseFilter{
+			Property: "Date",
+			QueryDatabasePropertyFilter: QueryDatabasePropertyFilter{
+				Date: DateFilterCondition{
+					Equals: now.Format("2006-01-02"),
+				},
 			},
 		},
 	}

@@ -17,8 +17,21 @@ func NewClient(apiToken string) *Client {
 	}
 }
 
+type DateFilterCondition struct {
+	Equals string `json:"equals,omitempty"`
+}
+
+type QueryDatabasePropertyFilter struct {
+	Date DateFilterCondition `json:"date,omitempty"`
+}
+
+type QueryDatabaseFilter struct {
+	Property string `json:"property,omitempty"`
+	QueryDatabasePropertyFilter
+}
+
 type QueryDatabaseParams struct {
-	filter interface{}
+	Filter QueryDatabaseFilter `json:"filter,omitempty"`
 }
 
 type QueryDatabaseResponse struct {
@@ -30,12 +43,7 @@ type QueryDatabaseResponse struct {
 func (c *Client) QueryDatabase(id string, params QueryDatabaseParams) (*QueryDatabaseResponse, error) {
 	url := "https://api.notion.com/v1/databases/" + id + "/query"
 
-	bodyParams := struct {
-		Filter interface{} `json:"filter,omitempty"`
-	}{
-		Filter: params.filter,
-	}
-	b, err := json.Marshal(bodyParams)
+	b, err := json.Marshal(params)
 	if err != nil {
 		return nil, err
 	}
