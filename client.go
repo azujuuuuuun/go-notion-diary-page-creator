@@ -78,22 +78,37 @@ func (c *Client) QueryDatabase(id string, params QueryDatabaseParams) (*QueryDat
 	return &resp, nil
 }
 
+type CreatePageParent struct {
+	Type       string `json:"type"`
+	DatabaseId string `json:"database_id,omitempty"`
+}
+
+type TextProperty struct {
+	Content string `json:"content,omitempty"`
+}
+
+type TitleProperty struct {
+	Text TextProperty `json:"text,omitempty"`
+}
+
+type DateProperty struct {
+	Start string `json:"start,omitempty"`
+}
+
+type CreatePageProperty struct {
+	Title []TitleProperty `json:"title,omitempty"`
+	Date  *DateProperty   `json:"date,omitempty"`
+}
+
 type CreatePageParams struct {
-	parent     interface{}
-	properties interface{}
+	Parent     CreatePageParent              `json:"parent"`
+	Properties map[string]CreatePageProperty `json:"properties"`
 }
 
 func (c *Client) CreatePage(params CreatePageParams) error {
 	url := "https://api.notion.com/v1/pages"
 
-	bodyParams := struct {
-		Parent     interface{} `json:"parent,omitempty"`
-		Properties interface{} `json:"properties,omitempty"`
-	}{
-		Parent:     params.parent,
-		Properties: params.properties,
-	}
-	b, err := json.Marshal(bodyParams)
+	b, err := json.Marshal(params)
 	if err != nil {
 		return err
 	}

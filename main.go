@@ -36,23 +36,23 @@ func main() {
 
 	jaWeekdays := [...]string{"日", "月", "火", "水", "木", "金", "土"}
 	cpParams := CreatePageParams{
-		parent: map[string]interface{}{
-			"type":        "database_id",
-			"database_id": env.diaryDatabaseId,
+		Parent: CreatePageParent{
+			Type:       "database_id",
+			DatabaseId: env.diaryDatabaseId,
 		},
-		properties: map[string]interface{}{
-			"Name": map[string]interface{}{
-				"title": []map[string]interface{}{
+		Properties: map[string]CreatePageProperty{
+			"Name": {
+				Title: []TitleProperty{
 					{
-						"text": map[string]interface{}{
-							"content": now.Format("2006/01/02") + "(" + jaWeekdays[now.Weekday()] + ")",
+						Text: TextProperty{
+							Content: now.Format("2006/01/02") + "(" + jaWeekdays[now.Weekday()] + ")",
 						},
 					},
 				},
 			},
-			"Date": map[string]interface{}{
-				"date": map[string]interface{}{
-					"start": now.Format("2006-01-02"),
+			"Date": {
+				Date: &DateProperty{
+					Start: now.Format("2006-01-02"),
 				},
 			},
 		},
