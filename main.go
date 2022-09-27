@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"log"
+	"os"
 	"time"
 )
 
@@ -21,7 +22,7 @@ func main() {
 	}
 	if b {
 		fmt.Println("Today's diary page was already created.")
-		return
+		os.Exit(0)
 	}
 
 	if err := diary.createTodaysPage(now); err != nil {
