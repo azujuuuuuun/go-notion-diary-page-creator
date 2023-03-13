@@ -10,7 +10,10 @@ import (
 func main() {
 	fmt.Println("Creating diary page started.")
 
-	env := GetEnv()
+	env, err := GetEnv()
+	if err != nil {
+		log.Fatalf("failed to load env: %v", err)
+	}
 	client := NewClient(env.apiToken)
 	diary := NewDiary(env.diaryDatabaseId, client)
 
