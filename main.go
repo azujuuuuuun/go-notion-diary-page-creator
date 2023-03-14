@@ -21,11 +21,11 @@ func main() {
 
 	now := time.Now()
 
-	b, err := diaryService.ExistsTodaysPage(diary, now)
+	exists, err := diaryService.ExistsTodaysPage(diary, now)
 	if err != nil {
 		log.Fatalf("failed to ExistsTodaysPage: %v", err)
 	}
-	if b {
+	if exists {
 		log.Println("Today's diary page was already created.")
 		os.Exit(0)
 	}
