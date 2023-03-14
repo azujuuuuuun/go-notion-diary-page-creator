@@ -45,7 +45,7 @@ func (d *Diary) createTodaysPage(now time.Time) error {
 			Type:       "database_id",
 			DatabaseId: d.databaseId,
 		},
-		Properties: map[string]CreatePageProperty{
+		Properties: CreatePageProperties{
 			"Name": {
 				Title: []TitleProperty{
 					{

@@ -34,10 +34,12 @@ type QueryDatabaseParams struct {
 	Filter QueryDatabaseFilter `json:"filter,omitempty"`
 }
 
+type QueryDatabaseResult struct {
+	Id string `json:"id"`
+}
+
 type QueryDatabaseResponse struct {
-	Results []struct {
-		Id string `json:"id"`
-	} `json:"results"`
+	Results []QueryDatabaseResult `json:"results"`
 }
 
 func (c *Client) QueryDatabase(id string, params QueryDatabaseParams) (*QueryDatabaseResponse, error) {
@@ -100,9 +102,11 @@ type CreatePageProperty struct {
 	Date  *DateProperty   `json:"date,omitempty"`
 }
 
+type CreatePageProperties map[string]CreatePageProperty
+
 type CreatePageParams struct {
-	Parent     CreatePageParent              `json:"parent"`
-	Properties map[string]CreatePageProperty `json:"properties"`
+	Parent     CreatePageParent     `json:"parent"`
+	Properties CreatePageProperties `json:"properties"`
 }
 
 func (c *Client) CreatePage(params CreatePageParams) error {
