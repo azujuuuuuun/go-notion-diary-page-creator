@@ -13,7 +13,7 @@ func NewDiaryService(diaryRepository *DiaryRepository) *DiaryService {
 	return &DiaryService{diaryRepository}
 }
 
-func (s *DiaryService) ExistsTodaysPage(diary *Diary, now time.Time) (bool, error) {
+func (s *DiaryService) ExistsTodaysPage(diary Diary, now time.Time) (bool, error) {
 	date := now.Format("2006-01-02")
 
 	pages, err := s.diaryRepository.FindPagesByDate(diary.id, date)
@@ -28,7 +28,7 @@ func (s *DiaryService) ExistsTodaysPage(diary *Diary, now time.Time) (bool, erro
 	return false, nil
 }
 
-func (s *DiaryService) CreateTodaysPage(diary *Diary, now time.Time) error {
+func (s *DiaryService) CreateTodaysPage(diary Diary, now time.Time) error {
 	jaWeekdays := [...]string{"日", "月", "火", "水", "木", "金", "土"}
 	title := now.Format("2006/01/02") + "(" + jaWeekdays[now.Weekday()] + ")"
 	date := now.Format("2006-01-02")
