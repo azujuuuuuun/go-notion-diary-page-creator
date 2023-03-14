@@ -1,14 +1,13 @@
 package main
 
 import (
-	"fmt"
 	"log"
 	"os"
 	"time"
 )
 
 func main() {
-	fmt.Println("Creating diary page started.")
+	log.Println("Creating diary page started.")
 
 	env, err := GetEnv()
 	if err != nil {
@@ -24,7 +23,7 @@ func main() {
 		log.Fatalf("failed to hasTodaysPage: %v", err)
 	}
 	if b {
-		fmt.Println("Today's diary page was already created.")
+		log.Println("Today's diary page was already created.")
 		os.Exit(0)
 	}
 
@@ -32,5 +31,5 @@ func main() {
 		log.Fatalf("failed to createTodaysPage: %v", err)
 	}
 
-	fmt.Println("Today's diary page was created successfully.")
+	log.Println("Today's diary page was created successfully.")
 }
