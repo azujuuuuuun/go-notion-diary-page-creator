@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
-	"io"
 	"net/http"
 )
 
@@ -68,14 +67,9 @@ func (c *Client) QueryDatabase(id string, params QueryDatabaseParams) (*QueryDat
 
 	defer res.Body.Close()
 
-	body, err := io.ReadAll(res.Body)
-	if err != nil && err != io.EOF {
-		return nil, fmt.Errorf("failed to read response body: %w", err)
-	}
-
 	var resp QueryDatabaseResponse
-	if err := json.Unmarshal(body, &resp); err != nil {
-		return nil, fmt.Errorf("failed to unmarshal response body: %w", err)
+	if err := json.NewDecoder(res.Body).Decode(&resp); err != nil {
+		return nil, fmt.Errorf("failed to decode response body: %w", err)
 	}
 
 	return &resp, nil
