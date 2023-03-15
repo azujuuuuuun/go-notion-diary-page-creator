@@ -29,8 +29,8 @@ func (s *DiaryService) ExistsTodaysPage(diary Diary, now time.Time) (bool, error
 }
 
 func (s *DiaryService) CreateTodaysPage(diary Diary, now time.Time) error {
-	jaWeekdays := [...]string{"日", "月", "火", "水", "木", "金", "土"}
-	title := now.Format("2006/01/02") + "(" + jaWeekdays[now.Weekday()] + ")"
+	dayOfWeek := GetJapaneseDayOfWeek(now)
+	title := now.Format("2006/01/02") + "(" + dayOfWeek + ")"
 	date := now.Format("2006-01-02")
 
 	return s.diaryRepository.CreatePage(diary.id, title, date)
