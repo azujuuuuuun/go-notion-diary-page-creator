@@ -11,3 +11,7 @@ func NewDiary(id string) Diary {
 type Page struct {
 	id string
 }
+
+func NewPage(id string) Page {
+	return Page{id}
+}

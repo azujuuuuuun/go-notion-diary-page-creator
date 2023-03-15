@@ -29,7 +29,7 @@ func (r *DiaryRepository) FindPagesByDate(id string, date string) ([]Page, error
 
 	var pages []Page
 	for _, result := range res.Results {
-		pages = append(pages, Page{id: result.Id})
+		pages = append(pages, NewPage(result.Id))
 	}
 
 	return pages, nil
