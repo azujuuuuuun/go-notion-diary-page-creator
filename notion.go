@@ -3,6 +3,7 @@ package main
 import (
 	"bytes"
 	"encoding/json"
+	"fmt"
 	"io"
 	"net/http"
 )
@@ -47,12 +48,12 @@ func (c *Client) QueryDatabase(id string, params QueryDatabaseParams) (*QueryDat
 
 	b, err := json.Marshal(params)
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("failed to marshal params: %w", err)
 	}
 
 	req, err := http.NewRequest("POST", url, bytes.NewReader(b))
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("failed to construct a request: %w", err)
 	}
 
 	req.Header.Add("accept", "application/json")
@@ -62,19 +63,19 @@ func (c *Client) QueryDatabase(id string, params QueryDatabaseParams) (*QueryDat
 
 	res, err := http.DefaultClient.Do(req)
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("failed to request database: %w", err)
 	}
 
 	defer res.Body.Close()
 
 	body, err := io.ReadAll(res.Body)
 	if err != nil && err != io.EOF {
-		return nil, err
+		return nil, fmt.Errorf("failed to read response body: %w", err)
 	}
 
 	var resp QueryDatabaseResponse
 	if err := json.Unmarshal(body, &resp); err != nil {
-		return nil, err
+		return nil, fmt.Errorf("failed to unmarshal response body: %w", err)
 	}
 
 	return &resp, nil
@@ -114,12 +115,12 @@ func (c *Client) CreatePage(params CreatePageParams) error {
 
 	b, err := json.Marshal(params)
 	if err != nil {
-		return err
+		return fmt.Errorf("failed to marshal params: %w", err)
 	}
 
 	req, err := http.NewRequest("POST", url, bytes.NewReader(b))
 	if err != nil {
-		return err
+		return fmt.Errorf("failed to construct a request: %w", err)
 	}
 
 	req.Header.Add("accept", "application/json")
@@ -129,7 +130,7 @@ func (c *Client) CreatePage(params CreatePageParams) error {
 
 	res, err := http.DefaultClient.Do(req)
 	if err != nil {
-		return err
+		return fmt.Errorf("failed to request creating page: %w", err)
 	}
 
 	defer res.Body.Close()

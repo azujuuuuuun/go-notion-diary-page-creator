@@ -18,7 +18,7 @@ func (s *DiaryService) ExistsTodaysPage(diary Diary, now time.Time) (bool, error
 
 	pages, err := s.diaryRepository.FindPagesByDate(diary.id, date)
 	if err != nil {
-		return false, fmt.Errorf("failed to FindPagesByDate: %v", err)
+		return false, fmt.Errorf("failed to find pages by date: %w", err)
 	}
 
 	if len(pages) > 0 {

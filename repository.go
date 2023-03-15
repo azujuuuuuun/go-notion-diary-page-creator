@@ -24,7 +24,7 @@ func (r *DiaryRepository) FindPagesByDate(id string, date string) ([]Page, error
 
 	res, err := r.client.QueryDatabase(id, params)
 	if err != nil {
-		return nil, fmt.Errorf("failed to QueryDatabase: %v", err)
+		return nil, fmt.Errorf("failed to query database: %w", err)
 	}
 
 	var pages []Page
@@ -61,7 +61,7 @@ func (r *DiaryRepository) CreatePage(id string, title string, date string) error
 
 	err := r.client.CreatePage(params)
 	if err != nil {
-		return fmt.Errorf("failed to CreatePage: %v", err)
+		return fmt.Errorf("failed to create page: %w", err)
 	}
 
 	return nil

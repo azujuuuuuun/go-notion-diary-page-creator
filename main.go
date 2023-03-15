@@ -11,7 +11,7 @@ func main() {
 
 	env, err := GetEnv()
 	if err != nil {
-		log.Fatalf("failed to load env: %v", err)
+		log.Fatalf("Failed to load env: %v", err)
 	}
 
 	client := NewClient(env.apiToken)
@@ -23,7 +23,7 @@ func main() {
 
 	exists, err := diaryService.ExistsTodaysPage(diary, now)
 	if err != nil {
-		log.Fatalf("failed to ExistsTodaysPage: %v", err)
+		log.Fatalf("Failed to ExistsTodaysPage: %v", err)
 	}
 	if exists {
 		log.Println("Today's diary page was already created.")
@@ -31,7 +31,7 @@ func main() {
 	}
 
 	if err := diaryService.CreateTodaysPage(diary, now); err != nil {
-		log.Fatalf("failed to createTodaysPage: %v", err)
+		log.Fatalf("Failed to createTodaysPage: %v", err)
 	}
 
 	log.Println("Today's diary page was created successfully.")
